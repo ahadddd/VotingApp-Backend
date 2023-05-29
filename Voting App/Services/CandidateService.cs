@@ -26,5 +26,10 @@ namespace Voting_App.Services
             return await _candidateCollection.Find(c => c.Name.Equals(name)).FirstOrDefaultAsync();
         }
 
+        public async Task CreateCandidate(Candidate candidate)
+        {
+            await _candidateCollection.InsertOneAsync(candidate);
+        }
+
     }
 }
