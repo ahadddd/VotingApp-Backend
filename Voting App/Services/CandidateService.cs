@@ -31,5 +31,14 @@ namespace Voting_App.Services
             await _candidateCollection.InsertOneAsync(candidate);
         }
 
+        public async Task UpdateCandidate(Candidate candidate)
+        {
+            await _candidateCollection.ReplaceOneAsync(c => c.Name.Equals(candidate.Name), candidate);
+        }
+
+        public async Task DeleteCandidate(string name)
+        {
+            await _candidateCollection.DeleteOneAsync(c => c.Name.Equals(name));
+        }
     }
 }
