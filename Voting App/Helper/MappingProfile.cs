@@ -10,6 +10,12 @@ namespace Voting_App.Helper
 
             CreateMap<Candidate, CandidateDto>();
             CreateMap<CandidateDto, Candidate>();
+            CreateMap<City, CityDto>();
+            CreateMap<CityDto, City>();
+            CreateMap<Voter, VoterDto>();
+            CreateMap<VoterDto, Voter>();
+            CreateMap<VoteDto, Voter>();
+            CreateMap<Vote, VoteDto>();
         }
     }
 }

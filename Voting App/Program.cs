@@ -7,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<DbSettings>(builder.Configuration.GetSection(key: "DbSettings"));
 builder.Services.AddControllers();
 builder.Services.AddSingleton<CandidateService>();
+builder.Services.AddSingleton<VoterService>();
+builder.Services.AddSingleton<CityService>();
+builder.Services.AddSingleton<VoteService>();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -24,6 +28,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.MapControllers();
 

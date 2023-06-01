@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Voting_App.Dto;
 
 namespace Voting_App.Models
 {
@@ -15,8 +16,7 @@ namespace Voting_App.Models
         [BsonElement("City")]
         public City? City { get; set; }
 
-
-
-
+        [BsonElement("Vote")]
+        public VoteDto? VoteCasted { get; set; }
     }
 }

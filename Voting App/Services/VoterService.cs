@@ -27,6 +27,11 @@ namespace Voting_App.Services
             return await _voterCollection.Find(voter => voter.Name == name).FirstOrDefaultAsync();
         }
 
+        public async Task<Voter> GetVoterByID(string ID)
+        {
+            return await _voterCollection.Find(v => v.Id == ID).FirstOrDefaultAsync();
+        }
+
         public async Task CreateVoter(Voter voter)
         {
             await _voterCollection.InsertOneAsync(voter);

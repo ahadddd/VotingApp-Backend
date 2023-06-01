@@ -1,10 +1,15 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Voting_App.Models;
 
 namespace Voting_App.Dto
 {
     public class CandidateDto
     {
+        //[BsonId]
+        //[BsonRepresentation(BsonType.ObjectId)]
+        //public string? Id { get; set; }
+
         [BsonElement("name")]
         public string Name { get; set; } = string.Empty;
 
@@ -14,7 +19,7 @@ namespace Voting_App.Dto
         //[BsonElement("votes")]
         //public ICollection<Vote>? Votes { get; set; }
 
-        //[BsonElement("city")]
-        //public City? City { get; set; }
+        [BsonElement("city")]
+        public CityDto? City { get; set; }
     }
 }

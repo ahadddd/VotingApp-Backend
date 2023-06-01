@@ -1,5 +1,7 @@
-﻿using MongoDB.Bson;
+﻿using Microsoft.VisualBasic;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Voting_App.Dto;
 
 namespace Voting_App.Models
 {
@@ -16,7 +18,7 @@ namespace Voting_App.Models
         public string? Position { get; set; }
 
         [BsonElement("votes")]
-        public ICollection<Vote>? Votes { get; set; }
+        public ICollection<VoteDto>? Votes { get; set; }
 
         [BsonElement("city")]
         public City? City { get; set; }

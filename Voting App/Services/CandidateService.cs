@@ -26,6 +26,11 @@ namespace Voting_App.Services
             return await _candidateCollection.Find(c => c.Name.Equals(name)).FirstOrDefaultAsync();
         }
 
+        public async Task<Candidate> GetCandidateByID(string ID)
+        {
+            return await _candidateCollection.Find(c => c.Id == ID).FirstOrDefaultAsync(); 
+        }
+
         public async Task CreateCandidate(Candidate candidate)
         {
             await _candidateCollection.InsertOneAsync(candidate);
@@ -39,6 +44,11 @@ namespace Voting_App.Services
         public async Task DeleteCandidate(string name)
         {
             await _candidateCollection.DeleteOneAsync(c => c.Name.Equals(name));
+        }
+
+        public async Task GetVoted(Candidate candidate)
+        {
+            await _candidateCollection.ReplaceOneAsync(c => c.Name == candidate.Name, candidate);
         }
     }
 }

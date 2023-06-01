@@ -26,6 +26,17 @@ namespace Voting_App.Controllers
             _voterService = voterService;
         }
 
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<Vote>))]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetVotes()
+        {
+            var votes = await _voteService.GetVotes();
+            if (!ModelState.IsValid || votes == null)
+                return BadRequest(ModelState);
+            return Ok(votes);
+        }
+
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
