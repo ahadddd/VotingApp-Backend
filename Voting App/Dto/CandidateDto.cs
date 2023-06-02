@@ -20,6 +20,6 @@ namespace Voting_App.Dto
         //public ICollection<Vote>? Votes { get; set; }
 
         [BsonElement("city")]
-        public CityDto? City { get; set; }
+        public string? City { get; set; }
     }
 }

@@ -83,9 +83,8 @@ namespace Voting_App.Controllers
                 }
                 else
                 {
-                    var cityMap = _mapper.Map<City>(createVoter.City);
+                   
                     var voterMap = _mapper.Map<Voter>(createVoter);
-                    voterMap.City = cityMap;
                     await _voterService.CreateVoter(voterMap);
                 }
             }
@@ -151,24 +150,11 @@ namespace Voting_App.Controllers
             }
             else
             {
-                var voter = await _voterService.GetVoterByID(vote.Voter);
-                var candidate = await _candidateService.GetCandidateByID(vote.Candidate);
-                var voteIDCatcher = await _voteService.GetVoteByVoterID(vote.Voter);
-                if(voter == null || voteIDCatcher == null)
+                if(vote.Voter != null)
                 {
-                    ModelState.AddModelError("", "Voter/Vote could not be found to link vote with.");
-                    return BadRequest(ModelState);
-                }
-                else
-                {
-                    var voteMap = new Vote();
-                    voteIDCatcher.Id = voteMap.Id;
-                    voteMap.Casted = true;
-                    voteMap.Voter = voter;
-                    voteMap.Candidate = candidate;
-                    voter.VoteCasted = _mapper.Map<VoteDto>(voteMap);
-                    var voterMap = _mapper.Map<Voter>(voter);
-                    await _voterService.UpdateVoter(voterMap);
+                   var voter = await _voterService.GetVoterByID(vote.Voter);
+                   voter.VoteCasted = vote;
+                   await _voterService.UpdateVoter(voter); 
                 }
             }
             return NoContent();

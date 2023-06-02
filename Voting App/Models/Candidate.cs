@@ -18,10 +18,10 @@ namespace Voting_App.Models
         public string? Position { get; set; }
 
         [BsonElement("votes")]
-        public ICollection<VoteDto>? Votes { get; set; }
+        public ICollection<VoteDto>? Votes { get; set; } = new List<VoteDto>();
 
         [BsonElement("city")]
-        public City? City { get; set; }
+        public string? City { get; set; } = string.Empty;
         
     }
 }

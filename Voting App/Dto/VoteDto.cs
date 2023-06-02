@@ -9,10 +9,10 @@ namespace Voting_App.Dto
         public bool Casted { get; set; }
 
         [BsonElement("votedBy")]
-        public string Voter { get; set; } = string.Empty;
+        public string? Voter { get; set; }
 
         [BsonElement("votedFor")]
-        public string Candidate { get; set; } = string.Empty;
+        public string? Candidate { get; set; }
 
     }
 }

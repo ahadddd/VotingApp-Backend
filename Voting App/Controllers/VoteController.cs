@@ -50,22 +50,16 @@ namespace Voting_App.Controllers
             }
             else
             {
-                var candidate = _mapper.Map<Candidate>(await _candidateService.GetCandidateByID(vote.Candidate));
-                var voter = _mapper.Map<Voter>(await _voterService.GetVoterByID(vote.Voter));
-                if (candidate == null || voter == null)
+                if (vote.Candidate == null || vote.Voter == null)
                 {
                     ModelState.AddModelError("", "Either Candidate or Voter were not found.");
                     return BadRequest(ModelState);
                 }
                 else
                 {
-                    //create Vote and push it in DB
-                    var createVote = new Vote();
-                    createVote.Casted = true;
-                    createVote.Candidate = candidate;
-                    createVote.Voter = voter;
-                    var voteMap = _mapper.Map<Vote>(createVote);
-                    await _voteService.CreateVote(voteMap);
+                    var newVote = _mapper.Map<Vote>(vote);
+                    newVote.Casted = true;
+                    await _voteService.CreateVote(newVote);
                 }
             }
             return NoContent();

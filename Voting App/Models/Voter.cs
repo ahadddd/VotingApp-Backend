@@ -13,9 +13,6 @@ namespace Voting_App.Models
         [BsonElement("Name")]
         public string? Name { get; set; }
 
-        [BsonElement("City")]
-        public City? City { get; set; }
-
         [BsonElement("Vote")]
         public VoteDto? VoteCasted { get; set; }
     }

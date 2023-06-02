@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration.Annotations;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson.IO;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
+using ThirdParty.Json.LitJson;
 using Voting_App.Dto;
 using Voting_App.Models;
 using Voting_App.Services;
+using Newtonsoft.Json;
 
 namespace Voting_App.Controllers
 {
@@ -22,7 +26,7 @@ namespace Voting_App.Controllers
             _mapper = mapper;
             _candidateService = candidateService;
             _voterService = voterService;
-            _voteService = voteService; 
+            _voteService = voteService;
         }
 
         [HttpGet]
@@ -81,23 +85,30 @@ namespace Voting_App.Controllers
         public async Task<IActionResult> CreateCandidate([FromBody] CandidateDto createCandidate)
         {
             if (createCandidate == null)
-            {
+            {   
                 return BadRequest(ModelState);
             }
-            else
+            else if(createCandidate != null)
             {
+                
                 var candidate = await _candidateService.GetCandidate(createCandidate.Name);
                 if (candidate != null)
                 {
                     ModelState.AddModelError("", "Candidate already exists.");
                     return BadRequest(ModelState);
                 }
+                
                 else
                 {
-                    var cityMap = _mapper.Map<City>(createCandidate.City); 
+                    if (createCandidate.City == null)
+                        return BadRequest(ModelState);
+
                     var candidateMap = _mapper.Map<Candidate>(createCandidate);
-                    candidateMap.City = cityMap;
-                    await _candidateService.CreateCandidate(candidateMap);
+                    if(createCandidate.City != null)
+                    {
+                        candidateMap.City = (string)createCandidate.City;
+                        await _candidateService.CreateCandidate(candidateMap);
+                    }
                 }
             }
             if (!ModelState.IsValid)
@@ -152,25 +163,20 @@ namespace Voting_App.Controllers
         {
             if (vote != null)
             {
-                
-                var voteIdCatcher = await _voteService.GetVoteByVoterID(vote.Voter);
-                var candidate = await _candidateService.GetCandidateByID(vote.Candidate);
-                var voter = await _voterService.GetVoterByID(vote.Voter);
-                if (candidate == null || voter == null)
+
+                if(vote.Candidate != null)
                 {
-                    ModelState.AddModelError("", "Candidate/Voter was not passed in vote.");
-                    return BadRequest(ModelState);
-                }
-                else
-                {
-                    //var voteMap = new Vote();
-                    //voteMap.Candidate = candidate;
-                    //voteMap.Voter = voter;
-                    //voteMap.Casted = true;
-                    //voteIdCatcher.Id = voteMap.Id;
-                    //var newVote = _mapper.Map<VoteDto>(voteMap);
-                    candidate.Votes?.Add(vote);
-                    await _candidateService.UpdateCandidate(candidate);
+                    var candidate = await _candidateService.GetCandidateByID(vote.Candidate);
+                    if (candidate == null)
+                    {
+                        ModelState.AddModelError("", "Candidate/Voter was not passed in vote.");
+                        return BadRequest(ModelState);
+                    }
+                    else
+                    {
+                        candidate.Votes.Add(vote);
+                        await _candidateService.UpdateCandidate(candidate);
+                    }
                 }
             }
             return NoContent();

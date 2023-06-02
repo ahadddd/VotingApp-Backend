@@ -8,7 +8,6 @@ builder.Services.Configure<DbSettings>(builder.Configuration.GetSection(key: "Db
 builder.Services.AddControllers();
 builder.Services.AddSingleton<CandidateService>();
 builder.Services.AddSingleton<VoterService>();
-builder.Services.AddSingleton<CityService>();
 builder.Services.AddSingleton<VoteService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

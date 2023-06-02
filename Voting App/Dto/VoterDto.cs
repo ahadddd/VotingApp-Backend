@@ -14,7 +14,7 @@ namespace Voting_App.Dto
         public string? Name { get; set; }
 
         [BsonElement("City")]
-        public CityDto? City { get; set; }
+        public string? City { get; set; }
 
     }
 }

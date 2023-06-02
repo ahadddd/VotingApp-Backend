@@ -13,9 +13,9 @@ namespace Voting_App.Models
         public bool Casted { get; set; } = false;
 
         [BsonElement("votedFor")]
-        public Candidate? Candidate { get; set;}
+        public string? Candidate { get; set;}
 
         [BsonElement("votedBy")]
-        public Voter? Voter { get; set; }
+        public string? Voter { get; set; }
     }
 }

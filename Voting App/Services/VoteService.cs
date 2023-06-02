@@ -27,10 +27,10 @@ namespace Voting_App.Services
             await _voteCollection.InsertOneAsync(vote);
         }
 
-        public async Task<Vote> GetVoteByVoterID(string ID)
-        {
-            return await _voteCollection.Find(vote => vote.Voter.Id == ID).FirstOrDefaultAsync();
-        }
+        //public async Task<Vote> GetVoteByVoterID(string ID)
+        //{
+        //    return await _voteCollection.Find(vote => vote.Voter.Id == ID).FirstOrDefaultAsync();
+        //}
 
     }
 }
