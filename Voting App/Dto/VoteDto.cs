@@ -11,8 +11,11 @@ namespace Voting_App.Dto
         [BsonElement("votedBy")]
         public string? Voter { get; set; }
 
-        [BsonElement("votedFor")]
-        public string? Candidate { get; set; }
+        [BsonElement("senator")]
+        public string Senator { get; set; } = string.Empty;
+
+        [BsonElement("congressman")]
+        public string Congressman { get; set; } = string.Empty;
 
     }
 }

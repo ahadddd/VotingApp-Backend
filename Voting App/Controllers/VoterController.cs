@@ -83,7 +83,6 @@ namespace Voting_App.Controllers
                 }
                 else
                 {
-                   
                     var voterMap = _mapper.Map<Voter>(createVoter);
                     await _voterService.CreateVoter(voterMap);
                 }

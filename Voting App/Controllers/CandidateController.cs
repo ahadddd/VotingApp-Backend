@@ -163,19 +163,22 @@ namespace Voting_App.Controllers
         {
             if (vote != null)
             {
-
-                if(vote.Candidate != null)
+                if(vote.Congressman != null && vote.Senator != null)
                 {
-                    var candidate = await _candidateService.GetCandidateByID(vote.Candidate);
-                    if (candidate == null)
+                    var senator = await _candidateService.GetCandidateByID(vote.Senator);
+                    var congressman = await _candidateService.GetCandidateByID(vote.Congressman);
+                    if (senator == null || congressman == null)
                     {
                         ModelState.AddModelError("", "Candidate/Voter was not passed in vote.");
                         return BadRequest(ModelState);
                     }
                     else
                     {
-                        candidate.Votes.Add(vote);
-                        await _candidateService.UpdateCandidate(candidate);
+                        senator.Votes?.Add(vote);
+                        congressman.Votes?.Add(vote);
+                        await _candidateService.UpdateCandidate(senator);
+                        await _candidateService.UpdateCandidate(congressman);
+
                     }
                 }
             }

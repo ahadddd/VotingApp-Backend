@@ -50,7 +50,7 @@ namespace Voting_App.Controllers
             }
             else
             {
-                if (vote.Candidate == null || vote.Voter == null)
+                if (vote.Senator == null || vote.Voter == null || vote.Congressman == null)
                 {
                     ModelState.AddModelError("", "Either Candidate or Voter were not found.");
                     return BadRequest(ModelState);
