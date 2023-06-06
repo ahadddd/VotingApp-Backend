@@ -166,20 +166,32 @@ namespace Voting_App.Controllers
                 if(vote.Congressman != null && vote.Senator != null)
                 {
                     var senator = await _candidateService.GetCandidateByID(vote.Senator);
-                    var congressman = await _candidateService.GetCandidateByID(vote.Congressman);
-                    if (senator == null || congressman == null)
+                    //var congressman = await _candidateService.GetCandidateByID(vote.Congressman);
+                    if (senator == null)
                     {
-                        ModelState.AddModelError("", "Candidate/Voter was not passed in vote.");
+                        ModelState.AddModelError("", "Senator/Congressman was not found.");
                         return BadRequest(ModelState);
                     }
                     else
                     {
                         senator.Votes?.Add(vote);
-                        congressman.Votes?.Add(vote);
-                        await _candidateService.UpdateCandidate(senator);
-                        await _candidateService.UpdateCandidate(congressman);
-
+                        var senatorMap = _mapper.Map<Candidate>(senator);
+                        await _candidateService.UpdateCandidate(senatorMap);
                     }
+
+                    var congressman = await _candidateService.GetCandidateByID(vote.Congressman);
+                    if(congressman == null)
+                    {
+                        ModelState.AddModelError("", "Congressman was not found.");
+                        return BadRequest(ModelState);
+                    }
+                    else
+                    {
+                        congressman.Votes?.Add(vote);
+                        var congressmanMap = _mapper.Map<Candidate>(congressman);
+                        await _candidateService.UpdateCandidate(congressmanMap);
+                    }
+
                 }
             }
             return NoContent();
